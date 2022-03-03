@@ -28,6 +28,8 @@
 
 ## Installation
 
+please clone repo to location machine, navigate into the folder from your terminal and run the command below
+
 ```bash
 $ npm install
 ```
@@ -44,6 +46,7 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+application should run on local port 3232
 
 ## Test
 
