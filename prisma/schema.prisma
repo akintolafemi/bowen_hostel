@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model hostels {
+  id                    Int       @id @default(autoincrement())
+  hostel_name           String    @db.Text
+  hostel_location       String    @db.Text
+  total_available_rooms Int       @default(50)
+  date_created          DateTime  @default(now()) @db.DateTime(6)
+  date_modified         DateTime? @db.DateTime(6)
+  rooms                 rooms[]
+}
+
+model rooms {
+  id            Int        @id @default(autoincrement())
+  room_name     String     @db.Text
+  hostel_id     Int        @default(0)
+  total_beds    Int        @default(4)
+  beds_taken    Int        @default(0)
+  is_available  Int        @default(1)
+  date_created  DateTime   @default(now()) @db.DateTime(6)
+  date_modified DateTime?  @db.DateTime(6)
+  hostels       hostels    @relation(fields: [hostel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rooms_ibfk_1")
+  students      students[]
+
+  @@index([hostel_id], map: "hostel_id")
+}
+
+model students {
+  id                Int       @id @default(autoincrement())
+  student_id        String    @unique(map: "student_id") @db.VarChar(255)
+  student_firstname String    @db.VarChar(255)
+  student_lastname  String    @db.VarChar(255)
+  student_password  String    @db.VarChar(255)
+  student_room_id   Int?
+  date_created      DateTime  @default(now()) @db.DateTime(6)
+  date_modified     DateTime? @db.DateTime(6)
+  rooms             rooms?    @relation(fields: [student_room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "students_ibfk_1")
+
+  @@index([student_room_id], map: "student_room_id")
+}
