@@ -21,6 +21,11 @@ export class HostelsController {
     return this.hostelsService.getHostelAllocations();
   }
 
+  @Get("/get-hostels")
+  public async getHostels() {
+    return this.hostelsService.getHostels();
+  }
+
   @Get("/search")
   public async filterHostel(@Query(new ValidationPipe({ whitelist: true, transform: true })) query: HostelSearchFieldsDto) {
     return this.hostelsService.filterHostel(query);
