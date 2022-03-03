@@ -58,6 +58,26 @@ export class HostelsService {
     }
   }
 
+  public async getHostels(): Promise<paginatedResponse> {
+    
+    const results = await this.prismaService.hostels.findMany({
+      select: {
+        id: true,
+        hostel_name: true,
+        hostel_location: true,
+        date_created: true,
+        date_modified: true,
+        _count: true,
+      },
+    });
+
+    const meta: metaData = {
+      totalRows: results.length,
+    };
+
+    return ResponseManager.paginatedResponse("success", HttpStatus.OK, "all hostels result", meta, results);
+  }
+
   public async getHostelAllocations(): Promise<paginatedResponse> {
     
     const results = await this.prismaService.rooms.findMany({

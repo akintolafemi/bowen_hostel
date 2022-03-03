@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import reverseString from './utils/reverse-string.utils';
 
@@ -11,7 +11,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get("/reverse-string")
+  @Post("/reverse-string")
   createHostel(@Body() req: any): string {
     return reverseString(req.str);
   }
